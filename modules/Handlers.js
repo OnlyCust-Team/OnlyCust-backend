@@ -1,8 +1,8 @@
-const Review = require("../models/Review");
+const Rate = require("../models/Review");
 
 const getReview = async (request, response) => {
     try {
-      const reviews = await Review.find({});
+      const reviews = await Rate.find({});
       response.status(200).json(reviews);
     } catch (error) {
       console.error(error);
@@ -10,29 +10,28 @@ const getReview = async (request, response) => {
     }
   };
 const addReview = async (request, response) => {
-    const { product, description, store, price, stars, tags, images } = request.body;
+    const { product, review, store, price, stars, images } = request.body;
   
-    if (!product || !description || !store || !price || !stars || !tags) {
-      return response.status(400).json({ message: "All fields are required" });
+    if (!product || !store || !price || !stars) {
+      return response.status(400).json({ message: "Fields are required" });
     }
   
     if (stars < 1 || stars > 5) {
       return response.status(400).json({ message: "Stars must be between 1 and 5" });
     }
   
-    const review = new Review({
+    const rate = new Rate({
       product,
-      description,
+      rate,
       store,
       price,
       stars,
-      tags,
       images,
     });
   
     try {
       await review.save();
-      response.status(201).json({ message: "New review created!", review });
+      response.status(201).json({ message: "New review created!", rate});
     } catch (error) {
       console.error(error);
       response.status(500).json({ message: "Error creating review" });
@@ -47,7 +46,7 @@ const removeReview = async (request, response) => {
     const reviewId = request.query.id;
     if (!reviewId) return response.status(400).json({ message: "?id is required" });
 
-    await Review.deleteOne({ _id: reviewId });
+    await Rate.deleteOne({ _id: reviewId });
     response.status(200).json({ message: "Review removed successfully" });
   } catch (error) {
     console.error(error);
