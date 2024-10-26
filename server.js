@@ -4,11 +4,9 @@ require("dotenv").config();
 
 const express = require("express");
 const cors = require("cors");
-const { getReview, addReview, seedDatabase, removeReview, resetDatabase } = require("./modules/Handlers");
+const { getReview, addReview, seedDatabase, removeReview } = require("./modules/Handlers");
 
 require("./database");
-
-// const Review = require("./models/Review");
 
 const app = express();
 app.use(cors());
@@ -22,8 +20,7 @@ app.get("/test", (request, response) => {
 app.get("/review", getReview);
 app.post("/addReview", addReview);
 app.get("/seed", seedDatabase);
-app.delete("/removeBook", removeReview);
-app.delete("/reset", resetDatabase);
+app.delete("/removeReview", removeReview);
 
 app.listen(PORT, () => console.log(`listening on ${PORT}`));
 console.log('We ARE LIVE')

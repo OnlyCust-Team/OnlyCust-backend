@@ -54,20 +54,10 @@ const removeReview = async (request, response) => {
     response.status(500).json({ message: "Error removing review" });
   }
 };
-const resetDatabase = async (request, response) => {
-  try {
-    await Review.deleteMany({});
-    response.status(200).json({ message: "Database cleared successfully." });
-  } catch (error) {
-    console.error("Error clearing database:", error);
-    response.status(500).json({ message: "Error clearing database." });
-  }
-};
 
 module.exports = {
   getReview,
   addReview,
   seedDatabase,
   removeReview,
-  resetDatabase,
 };
