@@ -1,14 +1,13 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
-const reviewSchema = new Schema({
+const rateSchema = new Schema({
   product: {
     type: String,
     required: true,
-  },
-  description: {
+  }, 
+  review: {
     type: String,
-    required: true,
   },
   store: {
     type: String,
@@ -24,15 +23,11 @@ const reviewSchema = new Schema({
     min: 1,
     max: 5,
   },
-  tags:{
-    type: String,
-    required: true,
-  },
   images:{
     type: String,
   },
 });
 
-const Review = mongoose.model("Review", reviewSchema);
+const Rate = mongoose.model("Rate", rateSchema);
 
-module.exports = Review;
+module.exports = Rate;
