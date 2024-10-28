@@ -4,7 +4,7 @@ require("dotenv").config();
 
 const express = require("express");
 const cors = require("cors");
-const { getReview, addReview, seedDatabase, removeReview } = require("./modules/Handlers");
+const { getReview, addReview, seedDatabase, removeReview, getStores } = require("./modules/Handlers");
 
 require("./database");
 
@@ -18,6 +18,7 @@ app.get("/test", (request, response) => {
 });
 
 app.get("/review", getReview);
+app.get("/stores",getStores)
 app.post("/addReview", addReview);
 app.get("/seed", seedDatabase);
 app.delete("/removeReview", removeReview);
