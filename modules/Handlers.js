@@ -1,5 +1,5 @@
-const { response } = require("express");
 const Rate = require("../models/Review");
+const multer = require('multer');
 
 const getReview = async (request, response) => {
   try {
@@ -19,31 +19,31 @@ const getStores = async (request, response) => {
   }
 };
 const addReview = async (request, response) => {
-  const { product, review, store, price, stars, images } = request.body;
+  const { product, review, store, price, stars } = request.body;
 
   if (!product || !store || !price || !stars) {
-    return response.status(400).json({ message: "Fields are required" });
+      return response.status(400).json({ message: "Fields are required" });
+  }
+  if (stars < 1 || stars > 5) {
+      return response.status(400).json({ message: "Stars must be between 1 and 5" });
   }
 
-  if (stars < 1 || stars > 5) {
-    return response.status(400).json({ message: "Stars must be between 1 and 5" });
-  }
+  const imagePath = request.file ? request.file.path : null;
 
   const rate = new Rate({
-    product,
-    rate,
-    store,
-    price,
-    stars,
-    images,
+      product,
+      review,
+      store,
+      price,
+      stars,
+      images: imagePath,
   });
 
   try {
-    await review.save();
-    response.status(201).json({ message: "New review created!", rate });
+      await rate.save();
+      response.status(201).json({ message: "Review added successfully" });
   } catch (error) {
-    console.error(error);
-    response.status(500).json({ message: "Error creating review" });
+      response.status(500).json({ message: "Error saving review" });
   }
 };
 const seedDatabase = async (request, response) => {

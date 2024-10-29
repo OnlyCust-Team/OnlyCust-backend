@@ -5,7 +5,7 @@ const rateSchema = new Schema({
   product: {
     type: String,
     required: true,
-  }, 
+  },
   review: {
     type: String,
   },
@@ -23,9 +23,12 @@ const rateSchema = new Schema({
     min: 1,
     max: 5,
   },
-  images:{
-    type: String,
-  },
+  images: [
+    {
+      type: String,
+      required: false,
+    }
+  ],
 });
 
 const Rate = mongoose.model("Rate", rateSchema);
