@@ -1,5 +1,4 @@
 const Rate = require("../models/Review");
-const multer = require('multer');
 
 const getReview = async (request, response) => {
   try {
