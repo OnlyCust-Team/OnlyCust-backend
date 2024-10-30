@@ -2,7 +2,7 @@ const Review = require("../models/Review");
 
 async function seed() {
   const rate1 = new Review({
-    product: "iPhone 14 Pro",
+    product: "iPhone 15 Pro",
     review: "Increíble teléfono con rendimiento de primer nivel, la calidad de la cámara es impresionante.",
     store: "Apple Store",
     price: 999.99,
