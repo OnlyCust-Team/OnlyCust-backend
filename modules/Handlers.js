@@ -31,7 +31,7 @@ const getBrand = async (request, response) => {
 };
 
 const addReview = async (request, response) => {
-  const { productName, brand, review, username, stars, price} = request.body;
+  const { productName, brand, review, username, stars, price } = request.body;
 
   if (!productName || !brand || !username || !review || !stars || !price) {
     return response.status(400).json({ message: "All fields are required" });

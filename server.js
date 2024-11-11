@@ -25,7 +25,7 @@ app.get("/test", (request, response) => {
 });
 
 app.get("/review", getReview);
-app.get("/stores", getBrand);
+app.get("/brands", getBrand);
 app.get("/seed", seedDatabase);
 app.get("/allReviews", getAllReviews)
 app.post("/addReview", addReview);
