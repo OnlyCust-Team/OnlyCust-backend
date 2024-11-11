@@ -16,7 +16,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 connectDB();
-const { getReview, addReview, seedDatabase, removeReview, getBrand, getAllReviews} = require("./modules/Handlers");
+const { getReview, addProduct, addReview, seedDatabase, removeReview, getBrand } = require("./modules/Handlers");
 
 const PORT = process.env.PORT || 3001;
 
@@ -27,7 +27,7 @@ app.get("/test", (request, response) => {
 app.get("/review", getReview);
 app.get("/brands", getBrand);
 app.get("/seed", seedDatabase);
-app.get("/allReviews", getAllReviews)
+app.post("/addProduct", addProduct)
 app.post("/addReview", addReview);
 app.delete("/removeReview", removeReview);
 

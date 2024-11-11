@@ -10,16 +10,6 @@ const getReview = async (request, response) => {
   }
 };
 
-const getAllReviews = async (request, response) => {
-  try {
-    const products = await Product.find({});
-    const allReviews = products.flatMap(product => product.reviews);
-    response.status(200).json(allReviews);
-  } catch (error) {
-    console.error(error);
-    response.status(500).json({ message: "Error fetching reviews" });
-  }
-};
 const getBrand = async (request, response) => {
   try {
     const stores = await Product.distinct('brand');
@@ -30,10 +20,42 @@ const getBrand = async (request, response) => {
   }
 };
 
-const addReview = async (request, response) => {
-  const { productName, brand, review, username, stars, price } = request.body;
+const addProduct = async (request, response) => {
+  const { name, brand, gama, price, image } = request.body;
 
-  if (!productName || !brand || !username || !review || !stars || !price) {
+  if (!name || !brand || !gama || !price) {
+    return response.status(400).json({ message: 'Required fields are missing' });
+  }
+  if (!['Alta', 'Media', 'Baja'].includes(gama)) {
+    return response.status(400).json({ message: 'Invalid gama value' });
+  }
+  
+  try {
+    const existingProduct = await Product.findOne({ name, brand });
+    if (existingProduct) {
+      return response.status(409).json({ message: 'Product already exists' });
+    }
+    const newProduct = new Product({
+      name,
+      brand,
+      gama,
+      price,
+      image,
+      created_at: new Date()
+    });
+
+    await newProduct.save();
+    response.status(201).json({ message: 'Product added successfully', product: newProduct });
+  } catch (error) {
+    console.error(error);
+    response.status(500).json({ message: 'Error saving product' });
+  }
+};
+
+const addReview = async (request, response) => {
+  const { productName, username, review, stars } = request.body;
+
+  if (!productName || !username || !review || !stars) {
     return response.status(400).json({ message: "All fields are required" });
   }
   if (stars < 1 || stars > 5) {
@@ -41,7 +63,7 @@ const addReview = async (request, response) => {
   }
 
   try {
-    const product = await Product.findOne({ name: productName, brand });
+    const product = await Product.findOne({ name: productName });
     if (!product) {
       return response.status(404).json({ message: "Product not found" });
     }
@@ -50,7 +72,6 @@ const addReview = async (request, response) => {
       username,
       review,
       stars,
-      price,
       created_at: new Date()
     });
 
@@ -91,8 +112,8 @@ const removeReview = async (request, response) => {
 module.exports = {
   getReview,
   getBrand,
+  addProduct,
   addReview,
-  getAllReviews,
   seedDatabase,
   removeReview,
 };
